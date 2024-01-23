@@ -1,0 +1,43 @@
+[
+    {
+      "text": "Retrieves all the articles where the title contains the word \"AI\" but not contains the word \"ethic\" prioritizing articles where the abstract contains the word \"Neural\"",
+      "query": "{\n    \"query\": {\n        \"bool\": {\n            \"must\": [\n                { \"match\": { \"title\": \"AI\" } }\n            ],\n            \"must_not\": [\n                { \"match\": { \"title\": \"Ethic\" } }\n            ],\n            \"should\": [\n                { \"match\": { \"abstract\": \"Neural\" } }\n            ]\n        }\n    }\n}"
+    },
+    {
+      "text": "Counts document by submitter.",
+      "query": "{\n  \"size\": 0,\n  \"aggs\": {\n    \"doc_by_submitter\": {\n      \"terms\": {\n        \"field\": \"submitter\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "text": "Retrieves all the articles with 18 pages and 8 figures.",
+      "query": "{\n    \"query\": {\n        \"match\": {\n            \"comments\":{\n                \"query\": \"18 pages 8 Figures\",\n                \"operator\": \"and\"\n            }\n        }\n    }\n}"
+    },
+    {
+      "text": "Count all \"hep-ph\" articles for each submitter.",
+      "query": "{\n   \"size\":0,\n   \"query\":{\n      \"match\":{\n         \"categories\":\"hep-ph\"\n      }\n   },\n   \"aggs\":{\n      \"hep_articles_per_submitter\":{\n         \"terms\":{\n            \"field\":\"submitter\"\n         }\n      }\n   }\n}"
+    },
+    {
+      "text": "Count for each categories how many articles with the word \"Quantum\" in the title.",
+      "query": "{\n    \"size\":0,\n    \"query\":{\n        \"match\":{\n            \"title\": \"quantum\"\n        }\n    },\n    \"aggs\":{\n        \"docs_per_category\":{\n            \"terms\":{\n                \"field\": \"categories\"\n            }\n        }\n    }\n}"
+    },
+    {
+      "text": "Find all articles with with \"Neural Network\" in the title, favouring artlicles containing \"deep learning\" in the abstract and favouring articles containing \"cnn\" in the abstract with double importance.",
+      "query": "{\n   \"query\":{\n      \"bool\":{\n         \"must\":[\n            {\n               \"match\":{\n                  \"title\":\"neural network\"\n               }\n            }\n         ],\n         \"should\":[\n            {\n               \"match\":{\n                  \"abstract\":\"deep learning\"\n               }\n            },\n            {\n               \"match\":{\n                  \"abstract\":{\n                     \"query\":\"CNN\",\n                     \"boost\":2.0\n                  }\n               }\n            }\n         ]\n      }\n   }\n}"
+    },
+    {
+      "text": "Counts articles about AI but not about ethic by category.",
+      "query": "{\n   \"size\":0,\n   \"query\":{\n      \"bool\":{\n         \"must\":[\n            {\n               \"match\":{\n                  \"title\":\"AI\"\n               }\n            }\n         ],\n         \"must_not\":[\n            {\n               \"match\":{\n                  \"title\":\"ethic\"\n               }\n            },\n            {\n               \"match\":{\n                  \"abstract\":\"ethic\"\n               }\n            }\n         ]\n      }\n   },\n   \"aggs\":{\n      \"docs_per_category\":{\n         \"terms\":{\n            \"field\":\"categories\"\n         }\n      }\n   }\n}"
+    },
+    {
+      "text": "Counts for each category how many articles have been submited by each submitter.",
+      "query": "{\n   \"size\":0,\n   \"aggs\":{\n      \"by_categories\":{\n         \"terms\":{\n            \"field\":\"categories\"\n         },\n         \"aggs\":{\n            \"by_submitter\":{\n               \"terms\":{\n                  \"field\":\"submitter\"\n               }\n            }\n         }\n      }\n   }\n}"
+    },
+    {
+      "text": "Counts for each submitter, for each categories the articles about AI favouring articles about transformers.",
+      "query": "{\n   \"size\":0,\n   \"query\":{\n      \"bool\":{\n         \"must\":[\n            {\n               \"match\":{\n                  \"title\":\"AI\"\n               }\n            },\n            {\n               \"match\":{\n                  \"abstract\":\"AI\"\n               }\n            }\n         ],\n         \"should\":[\n            {\n               \"match\":{\n                  \"abstract\":\"Transformers\"\n               }\n            }\n         ]\n      }\n   },\n   \"aggs\":{\n      \"by_submitter\":{\n         \"terms\":{\n            \"field\":\"submitter\"\n         },\n         \"aggs\":{\n            \"by_category\":{\n               \"terms\":{\n                  \"field\":\"submitter\"\n               }\n            }\n         }\n      }\n   }\n}"
+    },
+    {
+      "text": "Retrieves Articles with Attention in Title, Excluding CNN in Abstract, and Emphasizing Bidirectional LSTM and Transformer",
+      "query":"{\n   \"query\":{\n      \"bool\":{\n          \"must_not\":[\n            {\n               \"match\":{\n                  \"abstract\":\"CNN\"\n               }\n            }\n         ],\n         \"must\":[\n            {\n               \"match\":{\n                  \"title\":\"Attention\"\n               }\n            }\n         ],\n         \"should\":[\n            {\n               \"match\":{\n                  \"abstract\": {\n                      \"query\": \"Bidirectional LSTM\",\n                      \"operator\": \"and\",\n                      \"boost\": 4.0\n                  }\n               }\n            },\n            {\n               \"match\":{\n                  \"abstract\":{\n                     \"query\": \"Transformer\",\n                     \"boost\": 2.0\n                  }\n               }\n            }\n         ]\n      }\n   }\n}"
+    }
+]
+    

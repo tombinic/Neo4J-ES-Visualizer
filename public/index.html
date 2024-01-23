@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArXiv 3D Explorer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/scripts/3d-force-graph.min.js"></script> 
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/cm6.bundle.min.js"></script>
+    <script src="/scripts/jquery.jsonbrowser.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script src="/boostrap/js/bootstrap.min.js"></script>
+    <link href="./boostrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./style/index.css" rel="stylesheet">
+    <link href="./style/jquery.jsonbrowser.css" rel="stylesheet">
+</head>
+<body>
+    <div id="main" class="w-100 h-100"> 
+      <div id="3d-graph" class="w-100 h-100"></div>
+      <h1 class="text-3d">arXiv 3D Explorer</h1>  
+      <div class="fixed-bottom" id="bottompanel">
+        <div class="row justify-content-end toolbar">
+            <div class="row no-gutters justify-content-end" style="margin-right: 20px;">
+                <div class="col-auto">
+                    <select id='modeselector' class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected value="neo4j">Neo4j</option>
+                        <option value="elastic">Elastic</option>
+                    </select>
+                </div>
+                <div id="examplebtn" class="col-auto">
+                    <img src="media/example.png" alt="Clear" class="examplebutton"/>
+                </div>
+                <div id="clearbtn" class="col-auto">
+                    <img src="media/clean.png" alt="Clear" class="clearbutton"/>
+                </div>
+                <div id="runbtn" class="col-auto">
+                    <img src="media/run.png" alt="Run" class="runbutton"/>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="editorcontainer">
+            <div id="editor"></div>  
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content custom-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Example queries</h5>
+              <button id="closeModal" type="button" class="btn btn-transparent" data-bs-dismiss="modal" aria-label="Close">
+                <img src="media/close.png" alt="X" class="closebutton"/>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul id='examplequeries' class="list-group list-group-flush" style="max-height: 400px; overflow-y: auto;">
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+[
+    {
+      "text": "Retrieves the articles from 2007 which have been written by at least 25 authors.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWITH count(au) as number_of_authors, ar\nWHERE date(ar.date).year =  2007 AND number_of_authors >= 25\nMATCH p=(ar)<-[:WROTE]-(au:Author)\nRETURN p;"
+    },
+    {
+      "text": "Retrieves the article with the highest number of authors.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWITH ar, count(au) AS number_of_authors\nWITH ar, number_of_authors\nORDER BY number_of_authors DESC\nLIMIT 1\nMATCH p=(ar)<-[:WROTE]-(Author)\nRETURN p;"
+    },
+    {
+      "text": "Return all the papers that have Matteucci Matteo among the authors.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWHERE au.name CONTAINS \"Matteucci Matteo\"\nMATCH p=(ar)<-[:WROTE]-(Author)\nRETURN p;"
+    },
+    {
+      "text": "Returns all the collaborators of Yann LeCun and their articles",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(y:Author {name: \"LeCun Yann\"}),\n(au:Author)-[:WROTE]->(ar)\nMATCH p=(:Article)<-[:WROTE]-(au)\nRETURN p;"
+    },
+    {
+      "text": "Returns all the authors who wrote an article about Quantum physics in feb 2019.",
+      "query": "MATCH (a:Author)-[:WROTE]->(ar:Article)\nWHERE date(ar.date).month = 2 AND date(ar.date).year = 2019 AND ar.abstract CONTAINS 'Quantum'\nMATCH p=(ar)<-[:WROTE]-(a)\nRETURN p;"
+    },
+    {
+      "text": "Get all articles by authors who have written articles in at least three different years.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)-[:WROTE]->(other_ar:Article)\nWITH au, count(DISTINCT date(other_ar.date).year) AS unique_years\nWHERE unique_years >= 3\nMATCH p=(ar)<-[:WROTE]-(au)\nRETURN p\nlimit 250;"
+    },
+    {
+      "text": "Returns articles written by authors who have also published articles with 'Machine Learning' in the abstract.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)-[:WROTE]->(ml:Article)\nWHERE ml.abstract CONTAINS 'Machine Learning'\nMATCH p=(ar)<-[:WROTE]-(au)\nRETURN p;"
+    },
+    {
+      "text": "Retrieves articles with titles containing the word 'Graph' and lists their authors.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWHERE ar.title CONTAINS 'Graph'\nMATCH p=(ar)<-[:WROTE]-(au)\nRETURN p\nLIMIT 250;"
+    },
+    {
+      "text": "Retrivies articles written by authors who have not contributed to any articles in the year 2023 and returns the articles along with their author relationships.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWITH ar, au\nWHERE NOT (au)-[:WROTE]->(:Article {date: '2023'})\nMATCH p=(ar)<-[:WROTE]-(au:Author)\nRETURN p\nLIMIT 50;"
+    },
+    {
+      "text": "Retrieves articles with the most recent publication date and their authors.",
+      "query": "MATCH (ar:Article)<-[:WROTE]-(au:Author)\nWITH ar, date(ar.date) AS publication_date\nORDER BY publication_date DESC\nLIMIT 1\nMATCH p=(ar)<-[:WROTE]-(au)\nRETURN p;"
+    }
+  ]  

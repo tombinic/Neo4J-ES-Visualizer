@@ -1,0 +1,5 @@
+node_modules/
+datasets/arxiv-metadata-oai-snapshot.json
+neo4j-community-5.15.0
+articles.csv
+elasticsearch-8.11.3
